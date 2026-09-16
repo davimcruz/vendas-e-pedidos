@@ -1,0 +1,82 @@
+{
+  "name": "vendas-e-pedidos-api",
+  "version": "1.0.0",
+  "description": "API interna do módulo de vendas e pedidos da UP Shoop",
+  "packageManager": "pnpm@10.15.1",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "db:migrate": "tsx src/database/migrate.ts",
+    "db:seed": "tsx src/database/seed.ts",
+    "db:migrate:prod": "node dist/database/migrate.js",
+    "db:seed:prod": "node dist/database/seed.js",
+    "test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/vendas_pedidos_test JWT_SECRET=segredo-local-de-testes jest --runInBand",
+    "lint": "tsc --noEmit && tsc -p tsconfig.test.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "postgres": "^3.4.7",
+    "zod": "^4.1.8"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.13.5",
+    "@swc/jest": "^0.2.39",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.3.1",
+    "@types/supertest": "^6.0.3",
+    "jest": "^30.5.1",
+    "prettier": "^3.9.7",
+    "supertest": "^7.1.4",
+    "tsx": "^4.20.5",
+    "typescript": "^6.0.3"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/test/**/*.test.ts"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transform": {
+      "^.+\\.tsx?$": [
+        "@swc/jest",
+        {
+          "jsc": {
+            "parser": {
+              "syntax": "typescript"
+            },
+            "target": "es2022"
+          },
+          "module": {
+            "type": "es6"
+          }
+        }
+      ]
+    }
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@swc/core",
+      "esbuild",
+      "unrs-resolver"
+    ]
+  }
+}
