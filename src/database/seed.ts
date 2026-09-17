@@ -17,6 +17,6 @@ await sql`WITH produto AS (
     WHERE NOT EXISTS (SELECT 1 FROM produtos WHERE nome = 'Notebook')
     RETURNING id
   )
-  INSERT INTO estoques (produto_id, quantidade) SELECT id, 10 FROM produto`;
+  INSERT INTO estoques (produto_id, quantidade) SELECT id, 1000 FROM produto`;
 await sql.end();
 console.log(`Seed concluído. Administrador local: ${email}`);

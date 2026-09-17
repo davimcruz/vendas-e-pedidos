@@ -2,18 +2,22 @@
 
 Backend TypeScript + Node.js + Express + PostgreSQL para autenticação, catálogo, estoque, cupons, pedidos e relatórios. O projeto não possui frontend, variantes de produto nem integrações externas de frete/pagamento.
 
+## Ambiente publicado
+
+A API está em `https://vendas-e-pedidos.onrender.com` (Render, plano gratuito), com banco PostgreSQL no Neon. A primeira requisição após um período sem uso pode levar até 1 minuto. O banco publicado já tem o cupom `DESCONTO10` e o produto `Notebook`; para testar, cadastre um cliente em `POST /auth/cadastro` e use o token retornado.
+
 ## Execução rápida
 
 ```bash
 docker compose up --build
 ```
 
-A API estará em `http://localhost:3001`. O ambiente local cria um administrador (`admin@upshoop.local` / `Admin123!`), o cupom `DESCONTO10` (10% de desconto) e o produto `Notebook` (preço 3500, estoque 10). Troque as credenciais com `ADMIN_EMAIL` e `ADMIN_PASSWORD` fora do ambiente local.
+A API estará em `http://localhost:3001`. O ambiente local cria um administrador (`admin@upshoop.local` / `Admin123!`), o cupom `DESCONTO10` (10% de desconto) e o produto `Notebook` (preço 3500, estoque 1000). Troque as credenciais com `ADMIN_EMAIL` e `ADMIN_PASSWORD` fora do ambiente local.
 
 ## Fluxo de teste (Postman)
 
-1. `POST /auth/login` com o administrador para obter o `token`.
-2. `POST /auth/cadastro` para criar um cliente e obter o `clienteId`.
+1. `POST /auth/cadastro` para criar um cliente e obter o `token` e o `clienteId` (`POST /auth/login` gera um novo token depois).
+2. Use o `token` no header `Authorization: Bearer <token>`.
 3. `GET /produtos` para obter o `produtoId` do `Notebook`.
 4. `POST /pedidos` para criar o pedido (status `aguardando_pagamento`).
 5. `PUT /pedidos/:id/status` com `pago` (baixa o estoque) e depois `enviado`.
