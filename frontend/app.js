@@ -80,7 +80,10 @@ function renderAuth(mode) {
       return;
     }
     button.disabled = true;
-    button.textContent = 'Aguarde… (o servidor pode levar até 1 minuto para acordar)';
+    button.textContent = 'Aguarde…';
+    const slowHint = setTimeout(() => {
+      errorBox.innerHTML = '<p class="hint">O servidor estava dormindo e pode levar até 1 minuto para acordar.</p>';
+    }, 5000);
     try {
       const data = Object.fromEntries(new FormData(form));
       session = await api(signup ? '/auth/cadastro' : '/auth/login', { method: 'POST', body: JSON.stringify(data) });
@@ -90,6 +93,8 @@ function renderAuth(mode) {
       showError(errorBox, error);
       button.disabled = false;
       button.textContent = signup ? 'Cadastre-se' : 'Entrar';
+    } finally {
+      clearTimeout(slowHint);
     }
   });
 }
