@@ -7,51 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="topbar" id="topbar" hidden>
-      <div class="topbar-inner">
-        <a class="brand" href="#/" aria-label="UP Shoop, ir para o início">
-          <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 12H5L6 8zm3 0a3 3 0 016 0" /></svg></span>
-          <span class="brand-name">UP Shoop</span>
-        </a>
-        <form class="topbar-search" id="topbar-search" role="search">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" /></svg>
-          <input type="search" id="topbar-search-input" placeholder="Buscar produtos" aria-label="Buscar produtos" />
-        </form>
-        <nav class="topbar-nav" aria-label="Principal">
-          <a class="nav-link" id="nav-home" href="#/" aria-label="Início">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z" /></svg>
-            <span>Início</span>
-          </a>
-          <a class="nav-link" id="nav-cart" href="#/carrinho" aria-label="Carrinho de compras">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 12H5L6 8zm3 0a3 3 0 016 0" /></svg>
-            <span>Carrinho</span>
-            <b class="badge" id="cart-count" hidden>0</b>
-          </a>
-          <button type="button" class="nav-link" id="menu-button" aria-label="Menu de opções" aria-expanded="false" aria-controls="menu-panel">
-            <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-            <span class="avatar" aria-hidden="true"></span>
-            <span>Menu</span>
-          </button>
-        </nav>
-      </div>
-      <div class="menu-panel" id="menu-panel" hidden>
-        <div class="menu-user">
-          <span class="avatar" aria-hidden="true"></span>
-          <div><strong id="menu-name"></strong><small id="menu-email"></small></div>
-        </div>
-        <a href="#/pedidos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-3-2-3 2-3-2-3 2zM9 9h6M9 13h6" /></svg>Meus pedidos</a>
-        <a href="#/admin/produtos" id="menu-admin" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z" /></svg>Administração</a>
-        <button type="button" class="menu-item" id="logout-button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9" /></svg>Sair</button>
-      </div>
-    </header>
-    <main id="view"></main>
-    <footer class="footer">UP Shoop · Módulo de Vendas e Pedidos</footer>
-    <dialog class="dialog" id="dialog"></dialog>
-    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-    <script src="admin.js"></script>
-    <script src="app.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

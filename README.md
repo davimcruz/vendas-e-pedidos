@@ -1,6 +1,6 @@
 # Vendas e Pedidos API
 
-Backend TypeScript + Node.js + Express + PostgreSQL para autenticação, catálogo, estoque, cupons, pedidos e relatórios. O frontend (loja e painel de administração) está em `frontend/` e roda como site estático. O projeto não possui variantes de produto nem integrações externas de frete/pagamento.
+Backend TypeScript + Node.js + Express + PostgreSQL para autenticação, catálogo, estoque, cupons, pedidos e relatórios. O frontend (loja e painel de administração) está em `frontend/`, feito com React + Vite (`pnpm dev` e `pnpm build` dentro da pasta; `VITE_API_URL` aponta para outra API, veja `.env.example`). O projeto não possui variantes de produto nem integrações externas de frete/pagamento.
 
 ## Ambiente publicado
 
