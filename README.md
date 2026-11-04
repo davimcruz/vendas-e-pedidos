@@ -1,6 +1,6 @@
 # Vendas e Pedidos API
 
-Backend TypeScript + Node.js + Express + PostgreSQL para autenticação, catálogo, estoque, cupons, pedidos e relatórios. O projeto não possui frontend, variantes de produto nem integrações externas de frete/pagamento.
+Backend TypeScript + Node.js + Express + PostgreSQL para autenticação, catálogo, estoque, cupons, pedidos e relatórios. O frontend (loja e painel de administração) está em `frontend/` e roda como site estático. O projeto não possui variantes de produto nem integrações externas de frete/pagamento.
 
 ## Ambiente publicado
 
@@ -32,7 +32,7 @@ Estes contratos reproduzem a seção de APIs internas do documento. Com exceçã
 | POST   | `/auth/cadastro`              | `{ cliente, token }` com perfil `cliente`                   | 201, 400, 409           |
 | GET    | `/produtos`                   | `{ dados, paginacao }`                                      | 200, 400, 401           |
 | GET    | `/pedidos?status=&clienteId=` | Array com `id`, `clienteId`, `valorTotal` e `status`        | 200, 400, 401, 500      |
-| GET    | `/pedidos/:id`                | Pedido com subtotal, frete, desconto, cupom, total e status | 200, 400, 401, 404, 500 |
+| GET    | `/pedidos/:id`                | Pedido com subtotal, frete, desconto, cupom, total, status e `itens` | 200, 400, 401, 404, 500 |
 | POST   | `/pedidos`                    | Pedido criado com status `aguardando_pagamento`             | 201, 400, 401, 404, 500 |
 | PUT    | `/pedidos/:id`                | Pedido atualizado                                           | 200, 400, 401, 404, 409 |
 | PUT    | `/pedidos/:id/status`         | `{ id, status }`                                            | 200, 400, 401, 404, 409 |
@@ -43,6 +43,7 @@ Todos os erros respondem `{ "erro": { "codigo", "mensagem" } }`; erros de valida
 
 ### Regras dos pedidos
 
+- Cliente só lista, consulta, edita e cancela os próprios pedidos (de outro cliente a resposta é `404`) e só cria pedido em seu nome (`403`). `pago` e `enviado` são status exclusivos de administrador (`403`).
 - `itens` precisa de pelo menos um item e não pode repetir o mesmo produto (`400`).
 - Cupom inexistente, inativo ou expirado retorna `400` em `POST /pedidos` e `PUT /pedidos/:id`, e `404` (inexistente) ou `400` (inativo/expirado) em `POST /cupons/validar`.
 - `PUT /pedidos/:id` só altera pedidos `aguardando_pagamento` (`409` nos demais). Itens, frete e cupom substituem os anteriores; `cupom` omitido ou `null` remove o cupom.
