@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UP Shoop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar" id="topbar" hidden>
+      <a class="brand" href="#/" aria-label="UP Shoop, ir para o início">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 12H5L6 8zm3 0a3 3 0 016 0" /></svg>
+        <span>UP Shoop</span>
+      </a>
+      <form class="topbar-search" id="topbar-search" role="search">
+        <input type="search" id="topbar-search-input" placeholder="Buscar produtos" aria-label="Buscar produtos" />
+      </form>
+      <nav class="topbar-nav" aria-label="Principal">
+        <a href="#/" aria-label="Início">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z" /></svg>
+          <span>Início</span>
+        </a>
+        <a href="#/carrinho" aria-label="Carrinho de compras">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 12H5L6 8zm3 0a3 3 0 016 0" /></svg>
+          <span>Carrinho</span>
+          <b class="badge" id="cart-count" hidden>0</b>
+        </a>
+        <button type="button" id="menu-button" aria-label="Menu de opções" aria-expanded="false" aria-controls="menu-panel">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+          <span>Menu</span>
+        </button>
+      </nav>
+      <div class="menu-panel" id="menu-panel" hidden>
+        <p id="menu-user"></p>
+        <a href="#/pedidos">Meus pedidos</a>
+        <button type="button" id="logout-button">Sair</button>
+      </div>
+    </header>
+    <main id="view"></main>
+    <script src="app.js"></script>
+  </body>
+</html>
