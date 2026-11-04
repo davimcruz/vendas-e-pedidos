@@ -664,12 +664,17 @@ function route() {
     return;
   }
   document.getElementById('topbar').hidden = !session;
-  document.getElementById('menu-panel').hidden = true;
+  setMenu(false);
   view.onclick = null;
   window.scrollTo(0, 0);
   if (session) {
-    document.getElementById('menu-user').textContent = session.cliente.nome;
+    const { nome, email } = session.cliente;
+    document.getElementById('menu-name').textContent = nome;
+    document.getElementById('menu-email').textContent = email ?? '';
+    document.querySelectorAll('.avatar').forEach((avatar) => { avatar.textContent = nome.trim().slice(0, 1).toUpperCase(); });
     document.getElementById('menu-admin').hidden = !isAdmin();
+    setCurrent('nav-home', path === '/');
+    setCurrent('nav-cart', section === 'carrinho' || section === 'checkout');
   }
   if (path === '/login') return renderAuth('login');
   if (path === '/cadastro') return renderAuth('cadastro');
@@ -695,10 +700,23 @@ async function verifySession() {
   }
 }
 
-document.getElementById('menu-button').addEventListener('click', (event) => {
-  const panel = document.getElementById('menu-panel');
-  panel.hidden = !panel.hidden;
-  event.currentTarget.setAttribute('aria-expanded', String(!panel.hidden));
+function setMenu(open) {
+  document.getElementById('menu-panel').hidden = !open;
+  document.getElementById('menu-button').setAttribute('aria-expanded', String(open));
+}
+
+function setCurrent(id, active) {
+  const link = document.getElementById(id);
+  if (active) link.setAttribute('aria-current', 'page');
+  else link.removeAttribute('aria-current');
+}
+
+document.getElementById('menu-button').addEventListener('click', () => setMenu(document.getElementById('menu-panel').hidden));
+document.addEventListener('click', (event) => {
+  if (!event.target.closest('#menu-panel, #menu-button')) setMenu(false);
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') setMenu(false);
 });
 document.getElementById('logout-button').addEventListener('click', logout);
 document.getElementById('topbar-search').addEventListener('submit', (event) => {
