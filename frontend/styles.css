@@ -51,21 +51,22 @@ label { display: block; font-size: 14px; color: var(--gray-4); margin-bottom: 4p
 .error::before { content: "Erro: "; font-weight: 700; }
 
 /* barra superior fixa */
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); box-shadow: 0 1px 0 var(--gray-2); display: flex; align-items: center; gap: 8px; padding: 4px 8px; flex-wrap: wrap; }
+.topbar { position: sticky; top: 0; z-index: 10; background: var(--blue); display: flex; align-items: center; gap: 8px; padding: 4px 8px; flex-wrap: wrap; }
 .topbar[hidden] { display: none; }
 .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; min-height: var(--touch); padding: 0 8px; border-radius: var(--radius-md); }
-.brand svg { background: var(--blue); border-radius: var(--radius-md); padding: 4px; width: 32px; height: 32px; }
+.brand svg { background: var(--bg); border-radius: var(--radius-md); padding: 4px; width: 32px; height: 32px; }
+.brand span { letter-spacing: -0.02em; }
 .brand span { display: none; }
 .topbar-search { display: none; flex: 1; max-width: 480px; margin: 0 auto; }
-.topbar-search input { background: var(--gray-1); border-color: transparent; }
+.topbar-search input { background: var(--bg); border-color: transparent; }
 .topbar-nav { display: flex; flex: 1; justify-content: space-around; }
 .topbar-nav a, .topbar-nav button {
   position: relative; min-width: var(--touch); min-height: var(--touch); padding: 0 12px; border: 0; border-radius: var(--radius-md);
   background: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: var(--text); font-weight: 500; text-decoration: none;
 }
-.topbar-nav a:hover, .topbar-nav button:hover { background: var(--gray-1); }
+.topbar-nav a:hover, .topbar-nav button:hover { background: rgba(255, 255, 255, 0.4); }
 .topbar-nav span { display: none; }
-.badge { position: absolute; top: 2px; right: 2px; min-width: 20px; padding: 0 5px; border-radius: 10px; background: var(--blue); font-size: 14px; line-height: 20px; text-align: center; }
+.badge { position: absolute; top: 2px; right: 2px; min-width: 20px; padding: 0 5px; border-radius: 10px; background: var(--text); color: var(--bg); font-size: 14px; line-height: 20px; text-align: center; }
 .menu-panel { position: absolute; right: 8px; top: 100%; width: 220px; background: var(--bg); border-radius: var(--radius-lg); padding: 8px; box-shadow: var(--shadow-md); display: grid; gap: 4px; }
 .menu-panel[hidden] { display: none; }
 .menu-panel p { margin: 4px 8px; color: var(--gray-4); font-size: 14px; }
@@ -86,22 +87,28 @@ main { max-width: 1280px; margin: 0 auto; padding: 24px 16px 32px; }
 
 /* catálogo */
 .catalog { display: grid; gap: 24px; }
-.filters summary { display: flex; align-items: center; min-height: var(--touch); font-weight: 600; cursor: pointer; }
+.filters summary { display: inline-flex; align-items: center; min-height: var(--touch); padding: 0 16px; border: 1px solid var(--gray-3); border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
 .filters-body { display: grid; gap: 16px; padding: 8px 0; }
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; list-style: none; margin: 0; padding: 0; }
-.card { display: flex; flex-direction: column; height: 100%; border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; background: var(--bg); box-shadow: var(--shadow-sm); }
-.card:hover { background: var(--gray-1); }
-.thumb { display: grid; place-items: center; aspect-ratio: 1; background: var(--blue-tint); }
-.thumb svg { width: 50%; height: 50%; stroke-width: 1.5; }
-.card-info { padding: 8px; font-size: 14px; line-height: 1.4; }
+.card { display: flex; flex-direction: column; height: 100%; text-decoration: none; }
+.card:hover .thumb { filter: brightness(0.94); }
+.card:hover strong { text-decoration: underline; text-decoration-color: var(--blue); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.thumb { display: grid; place-items: center; aspect-ratio: 1; border-radius: var(--radius-lg); }
+.thumb span { font-size: clamp(40px, 9vw, 72px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.tone-0 { background: rgba(121, 177, 240, 0.18); }
+.tone-1 { background: rgba(121, 177, 240, 0.34); }
+.tone-2 { background: rgba(121, 177, 240, 0.52); }
+.card-info { padding: 8px 0; font-size: 14px; line-height: 1.4; }
 .card-info strong { display: block; font-weight: 600; overflow-wrap: anywhere; }
-.price { font-weight: 700; }
+.price { font-weight: 700; font-variant-numeric: tabular-nums; }
 .soldout { color: var(--gray-4); font-size: 14px; text-decoration: underline; text-decoration-color: var(--blue); }
 .pager { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 24px; }
 
 /* produto */
 .product { display: grid; gap: 24px; }
-.product .thumb { border-radius: var(--radius-lg); }
+.product .thumb span { font-size: clamp(96px, 30vw, 200px); }
+.product h1 { margin-bottom: 4px; }
+.product > form > .price { font-size: 24px; margin-bottom: 16px; }
 .options { display: flex; flex-wrap: wrap; gap: 8px; }
 .options label { margin: 0; color: var(--text); font-size: 16px; }
 .options input, .pay-options input { position: absolute; opacity: 0; width: 1px; min-height: 0; }
@@ -116,6 +123,8 @@ main { max-width: 1280px; margin: 0 auto; padding: 24px 16px 32px; }
 .cart-line { display: grid; grid-template-columns: 72px 1fr; gap: 16px; padding: 16px 0; align-items: center; }
 .cart-line + .cart-line { box-shadow: 0 -1px 0 var(--gray-2); }
 .cart-line .thumb { width: 72px; border-radius: var(--radius-md); }
+.cart-line .thumb span { font-size: 28px; }
+.cart-layout { display: grid; gap: 24px; }
 .cart-line .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; grid-column: 1 / -1; }
 .checkout { display: grid; gap: 24px; }
 .block { background: var(--gray-1); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px; }
@@ -154,4 +163,7 @@ main { max-width: 1280px; margin: 0 auto; padding: 24px 16px 32px; }
   .filters summary { display: none; }
   .grid { grid-template-columns: repeat(6, 1fr); }
   .checkout { grid-template-columns: 1fr 1fr; align-items: start; }
+  .cart-layout { grid-template-columns: 1fr 320px; align-items: start; }
+  .cart-layout .block { position: sticky; top: 88px; }
 }
+.catalog h1, main > h1 { margin: 8px 0 16px; }

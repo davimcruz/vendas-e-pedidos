@@ -6,7 +6,8 @@ const PAYMENTS = [
   { id: 'cartao', label: 'Cartão de crédito', icon: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/>' },
   { id: 'boleto', label: 'Dinheiro / Boleto', icon: '<path d="M5 5v14M8 5v14M12 5v14M15 5v14M19 5v14"/>' },
 ];
-const SHIRT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4L3 7l2 4 3-1v10h8V10l3 1 2-4-5-3a4 4 0 01-8 0z"/></svg>';
+// sem imagens na API: o produto é representado pela inicial, em 3 tons do azul
+const thumb = (name, id) => `<div class="thumb tone-${id % 3}" aria-hidden="true"><span>${escapeHtml(name.trim().slice(0, 1).toUpperCase())}</span></div>`;
 
 const view = document.getElementById('view');
 const money = (value) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -141,7 +142,7 @@ async function renderCatalog(query) {
     result.innerHTML = `
       <ul class="grid">${dados.map((product) => `
         <li><a class="card" href="#/produto/${product.id}">
-          <div class="thumb">${SHIRT}</div>
+          ${thumb(product.nome, product.id)}
           <div class="card-info"><strong>${escapeHtml(product.nome)}</strong><span class="price">${money(product.preco)}</span>
           ${product.quantidadeEstoque === 0 ? '<div class="soldout">Esgotado</div>' : ''}</div>
         </a></li>`).join('')}</ul>
@@ -165,7 +166,7 @@ async function renderProduct(id) {
       `<label><input type="radio" name="${name}" value="${value}" ${index === 0 ? 'checked' : ''} /><span>${value}</span></label>`).join('');
     view.innerHTML = `
       <article class="product">
-        <div class="thumb" role="img" aria-label="Imagem de ${escapeHtml(product.nome)}">${SHIRT}</div>
+        ${thumb(product.nome, product.id)}
         <form id="product-form">
           <h1>${escapeHtml(product.nome)}</h1>
           <p class="price">${money(product.preco)}</p>
@@ -226,15 +227,15 @@ function cartTotals() {
 
 function renderCart() {
   if (cart.length === 0) {
-    view.innerHTML = '<h1>Carrinho</h1><p>Seu carrinho está vazio.</p><a class="button primary" href="#/">Ver produtos</a>';
+    view.innerHTML = '<h1>Carrinho</h1><p>Seu carrinho está vazio. Escolha um produto para começar.</p><a class="button primary" href="#/">Ver produtos</a>';
     return;
   }
   const stockOf = (produtoId) => cart.filter((line) => line.produtoId === produtoId).reduce((sum, line) => sum + line.quantidade, 0);
   view.innerHTML = `
     <h1>Carrinho</h1>
-    <div>${cart.map((line, index) => `
+    <div class="cart-layout"><div>${cart.map((line, index) => `
       <div class="cart-line">
-        <div class="thumb">${SHIRT}</div>
+        ${thumb(line.nome, line.produtoId)}
         <div><strong>${escapeHtml(line.nome)}</strong><br /><span class="hint">${line.cor} · ${line.tamanho}</span><br /><span class="price">${money(line.preco)}</span></div>
         <div class="row">
           <div class="stepper">
@@ -247,8 +248,11 @@ function renderCart() {
           </button>
         </div>
       </div>`).join('')}</div>
-    <div class="summary-row total"><span>Subtotal</span><span>${money(cartTotals().subtotal)}</span></div>
-    <p><a class="button primary" href="#/checkout">Continuar para o pagamento</a></p>`;
+    <aside class="block">
+      <div class="summary-row total"><span>Subtotal</span><span>${money(cartTotals().subtotal)}</span></div>
+      <p class="hint">Frete e cupom são calculados no próximo passo.</p>
+      <a class="button primary" href="#/checkout" style="width:100%">Continuar para o pagamento</a>
+    </aside></div>`;
   view.onclick = (event) => {
     const button = event.target.closest('[data-action]');
     if (!button) return;
