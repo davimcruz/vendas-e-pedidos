@@ -11,6 +11,10 @@ export type Order = {
   status: OrderStatus;
 };
 
+export type DetailedItem = ItemInput & { nome: string; precoUnitario: number };
+
+export type OrderDetail = Order & { itens: DetailedItem[] };
+
 export type OrderSummary = Pick<Order, 'id' | 'clienteId' | 'valorTotal' | 'status'>;
 
 export type OrderTotals = Pick<Order, 'subtotal' | 'frete' | 'desconto' | 'cupom' | 'valorTotal'>;

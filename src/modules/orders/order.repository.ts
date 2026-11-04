@@ -1,5 +1,6 @@
 import { sql, type Database } from '../../database/sql.js';
 import type {
+  DetailedItem,
   ItemInput,
   Order,
   OrderFilters,
@@ -34,6 +35,12 @@ export const orderRepository = {
     const [order] = await db<Order[]>`SELECT ${orderColumns} FROM pedidos
       WHERE id = ${id} FOR UPDATE`;
     return order;
+  },
+
+  findDetailedItems(orderId: number): Promise<DetailedItem[]> {
+    return sql<DetailedItem[]>`SELECT i.produto_id, p.nome, i.quantidade, i.preco_unitario
+      FROM itens_pedido i JOIN produtos p ON p.id = i.produto_id
+      WHERE i.pedido_id = ${orderId} ORDER BY i.produto_id`;
   },
 
   findItems(orderId: number, db: Database): Promise<ItemInput[]> {

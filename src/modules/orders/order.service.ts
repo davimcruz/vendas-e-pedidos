@@ -9,6 +9,7 @@ import { orderRepository } from './order.repository.js';
 import type {
   ItemInput,
   Order,
+  OrderDetail,
   OrderFilters,
   OrderInput,
   OrderItem,
@@ -74,12 +75,12 @@ export function list(filters: OrderFilters) {
   return orderRepository.list(filters);
 }
 
-export async function get(id: number): Promise<Order> {
+export async function get(id: number): Promise<OrderDetail> {
   const order = await orderRepository.findById(id);
   if (!order) {
     throw new AppError(404, 'PEDIDO_NAO_ENCONTRADO', 'Pedido não encontrado.');
   }
-  return order;
+  return { ...order, itens: await orderRepository.findDetailedItems(id) };
 }
 
 export async function create(input: OrderInput): Promise<Order> {
